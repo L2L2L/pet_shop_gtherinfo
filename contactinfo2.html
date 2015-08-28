@@ -1,0 +1,120 @@
+ <!DOCTYPE HTML>
+<html lang="en">
+<head>
+<title>Sandy's Pet Shop</title>
+    <meta charset="utf-8">
+    <!--[if lt IE9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js">
+    </script>
+    <![endif]-->
+    <script src="//code.jquery.com/jquery-1.11.3.min.js" defer="defer"></script>
+</head>
+<body>
+    <header>
+        <h1>Welcomes to Sandy's Pet Shop!</h1>
+    </header>
+    <nav>
+     <ul>
+      <li><a href ="welcome.html">Home</a></li>
+      <li><a href ="about.html">About</a></li>
+      <li><a href ="grooming.html">Grooming</a></li>
+      <li><a href ="storelocation.html">Store Location</a></li>
+      <li><a href ="contactus.html">Contact Us</a></li>
+      </ul>
+    </nav>
+    
+    </body>
+    <article>
+      <h1>Contact Information</h1>
+      <p>1116 Devine Street, Columbia, SC 292099</p>
+      <p>Office Number:803-457-6957</p>
+      <p>Fax Number:803-457-5464</p>
+      <p>Email Diana Knowles at <a href="mailto:petshoplife@yahoo.com">petshoplife@yahoo.com</a></p>
+    </article>
+    
+    <article>
+        <div id="err" style="color:#f00"></div>
+        <h1><strong>Contact Form</strong></h1>
+    <form method="post" action="" onsubmit="">
+    <table border="0" cellspacing="2" cellpadding="0">
+    <tr>
+      <td> First Name:</td>
+      <td><input id="firstName" type="text" name="First Name" size="20"></td>
+    </tr>
+    
+    <tr>
+      <td> Last Name:</td>
+      <td><input id="lastName" type="text" name="Last Name" size="20"></td>
+    </tr>
+    <tr>
+      <td>Email Address:</td>
+      <td><input id="email" type="text" name="Email Address" size="20"></td>
+    </tr>
+    <tr>
+      <td>Comments:</td>
+      </tr>
+    </table>
+    
+    <textarea id="textcomments" name="message" rows="10" cols="30">
+      Please place additional questions or concerns here...
+    </textarea>
+    <br>
+    <td>
+      <tr><input id="btn" type="submit" value="Submit"></tr>
+    </td>
+    <hr />
+    <section id="comments"></section>
+    <hr />
+    <footer>
+      <p>&copy; Sandy's Pet Shop. All Rights Reserved. For questions send email to <a href="mailto:petshoplife@yahoo.com">petshoplife@yahoo.com</a></p>
+    </footer>
+        </form>
+    <script>
+    
+    var btn = document.getElementById("btn");
+    
+    btn.onclick = function (e){
+        e.preventDefault();
+        myFunction();
+    };
+    
+    function myFunction() {
+      var firstName = document.getElementById("firstName").value;
+      var lastName = document.getElementById("lastName").value;
+      var email = document.getElementById("email").value;
+      var textcomments = document.getElementById("textcomments").value;
+     
+     
+      var dataObj = {'firstName1': firstName, 
+                    'lastName1':lastName, 
+                    'email1':email, 
+                    'textcomments1':textcomments};
+        console.log("dataObj: ",JSON.stringify(dataObj));
+      if (firstName == '' || lastName == '' || email == '' || textcomments == ''){
+        alert ("Please Fill All Fields");
+      }else{
+    	$.post("gatherInfo.php",
+    	    dataObj,
+    	    function (data){
+    	        var child;
+    	        data = data.trim();
+    	        if (/^Error\:\s/.test(data)) {
+    	            document.getElementById("err").innerHTML = data;
+    	        } else {
+    	            child = document.createElement("p");
+    	            document.getElementById("err").innerHTML = "";
+    	            child.innerHTML = "name: " + firstName + lastName + "<br />"
+    	                            + "email: " + email + "<br />" 
+    	                            + textcomments + "<br />";
+    	            document.getElementById("comments").appendChild(child); 
+    	        }
+                
+    	});
+       
+      }
+      return false;
+    }
+    
+    </script>
+</body>
+</html>
